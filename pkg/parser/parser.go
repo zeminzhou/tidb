@@ -36,7 +36,6 @@ import (
 	"github.com/pingcap/tidb/pkg/parser/auth"
 	"github.com/pingcap/tidb/pkg/parser/charset"
 	"github.com/pingcap/tidb/pkg/parser/duration"
-	"github.com/pingcap/tidb/pkg/parser/model"
 	"github.com/pingcap/tidb/pkg/parser/mysql"
 	"github.com/pingcap/tidb/pkg/parser/opcode"
 	"github.com/pingcap/tidb/pkg/parser/types"
@@ -13433,14 +13432,14 @@ yynewstate:
 		}
 	case 3:
 		{
-			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-4].item.(*ast.TableName)}, PartitionNames: yyS[yypt-1].item.([]model.CIStr), AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
+			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-4].item.(*ast.TableName)}, PartitionNames: yyS[yypt-1].item.([]ast.CIStr), AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 4:
 		{
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:     []*ast.TableName{yyS[yypt-6].item.(*ast.TableName)},
-				PartitionNames: yyS[yypt-3].item.([]model.CIStr),
-				IndexNames:     yyS[yypt-1].item.([]model.CIStr),
+				PartitionNames: yyS[yypt-3].item.([]ast.CIStr),
+				IndexNames:     yyS[yypt-1].item.([]ast.CIStr),
 				IndexFlag:      true,
 				AnalyzeOpts:    yyS[yypt-0].item.([]ast.AnalyzeOpt),
 			}
@@ -13463,7 +13462,7 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.CompactTableStmt{
 				Table:          yyS[yypt-3].item.(*ast.TableName),
-				PartitionNames: yyS[yypt-0].item.([]model.CIStr),
+				PartitionNames: yyS[yypt-0].item.([]ast.CIStr),
 				ReplicaKind:    ast.CompactReplicaKindAll,
 			}
 		}
@@ -13471,7 +13470,7 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.CompactTableStmt{
 				Table:          yyS[yypt-5].item.(*ast.TableName),
-				PartitionNames: yyS[yypt-2].item.([]model.CIStr),
+				PartitionNames: yyS[yypt-2].item.([]ast.CIStr),
 				ReplicaKind:    ast.CompactReplicaKindTiFlash,
 			}
 		}
@@ -13529,33 +13528,33 @@ yynewstate:
 		}
 	case 18:
 		{
-			parser.yyVAL.item = model.WatchExact
+			parser.yyVAL.item = ast.WatchExact
 		}
 	case 19:
 		{
-			parser.yyVAL.item = model.WatchSimilar
+			parser.yyVAL.item = ast.WatchSimilar
 		}
 	case 20:
 		{
-			parser.yyVAL.item = model.WatchPlan
+			parser.yyVAL.item = ast.WatchPlan
 		}
 	case 21:
 		{
-			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{Type: model.RunawayActionDryRun}
+			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{Type: ast.RunawayActionDryRun}
 		}
 	case 22:
 		{
-			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{Type: model.RunawayActionCooldown}
+			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{Type: ast.RunawayActionCooldown}
 		}
 	case 23:
 		{
-			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{Type: model.RunawayActionKill}
+			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{Type: ast.RunawayActionKill}
 		}
 	case 24:
 		{
 			parser.yyVAL.item = &ast.ResourceGroupRunawayActionOption{
-				Type:            model.RunawayActionSwitchGroup,
-				SwitchGroupName: model.NewCIStr(yyS[yypt-1].ident),
+				Type:            ast.RunawayActionSwitchGroup,
+				SwitchGroupName: ast.NewCIStr(yyS[yypt-1].ident),
 			}
 		}
 	case 25:
@@ -13566,28 +13565,28 @@ yynewstate:
 				return 1
 			}
 			parser.yyVAL.item = &ast.ResourceGroupRunawayOption{
-				Tp:         model.RunawayRule,
+				Tp:         ast.RunawayRule,
 				RuleOption: &ast.ResourceGroupRunawayRuleOption{Tp: ast.RunawayRuleExecElapsed, ExecElapsed: yyS[yypt-0].ident},
 			}
 		}
 	case 26:
 		{
 			parser.yyVAL.item = &ast.ResourceGroupRunawayOption{
-				Tp:         model.RunawayRule,
+				Tp:         ast.RunawayRule,
 				RuleOption: &ast.ResourceGroupRunawayRuleOption{Tp: ast.RunawayRuleProcessedKeys, ProcessedKeys: yyS[yypt-0].item.(int64)},
 			}
 		}
 	case 27:
 		{
 			parser.yyVAL.item = &ast.ResourceGroupRunawayOption{
-				Tp:         model.RunawayRule,
+				Tp:         ast.RunawayRule,
 				RuleOption: &ast.ResourceGroupRunawayRuleOption{Tp: ast.RunawayRuleRequestUnit, RequestUnit: yyS[yypt-0].item.(int64)},
 			}
 		}
 	case 28:
 		{
 			parser.yyVAL.item = &ast.ResourceGroupRunawayOption{
-				Tp:           model.RunawayAction,
+				Tp:           ast.RunawayAction,
 				ActionOption: yyS[yypt-0].item.(*ast.ResourceGroupRunawayActionOption),
 			}
 		}
@@ -13605,9 +13604,9 @@ yynewstate:
 				}
 			}
 			parser.yyVAL.item = &ast.ResourceGroupRunawayOption{
-				Tp: model.RunawayWatch,
+				Tp: ast.RunawayWatch,
 				WatchOption: &ast.ResourceGroupRunawayWatchOption{
-					Type:     yyS[yypt-1].item.(model.RunawayWatchType),
+					Type:     yyS[yypt-1].item.(ast.RunawayWatchType),
 					Duration: dur,
 				},
 			}
@@ -13842,7 +13841,7 @@ yynewstate:
 		{
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				Tp:             ast.AlterTablePartitionAttributes,
-				PartitionNames: []model.CIStr{model.NewCIStr(yyS[yypt-1].ident)},
+				PartitionNames: []ast.CIStr{ast.NewCIStr(yyS[yypt-1].ident)},
 				AttributesSpec: yyS[yypt-0].item.(*ast.AttributesSpec),
 			}
 		}
@@ -13850,7 +13849,7 @@ yynewstate:
 		{
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				Tp:             ast.AlterTablePartitionOptions,
-				PartitionNames: []model.CIStr{model.NewCIStr(yyS[yypt-1].ident)},
+				PartitionNames: []ast.CIStr{ast.NewCIStr(yyS[yypt-1].ident)},
 				Options:        yyS[yypt-0].item.([]*ast.TableOption),
 			}
 		}
@@ -14053,7 +14052,7 @@ yynewstate:
 			if yyS[yypt-0].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 		}
@@ -14087,7 +14086,7 @@ yynewstate:
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				IfExists:       yyS[yypt-1].item.(bool),
 				Tp:             ast.AlterTableDropPartition,
-				PartitionNames: yyS[yypt-0].item.([]model.CIStr),
+				PartitionNames: yyS[yypt-0].item.([]ast.CIStr),
 			}
 		}
 	case 102:
@@ -14117,7 +14116,7 @@ yynewstate:
 		{
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				Tp:             ast.AlterTableExchangePartition,
-				PartitionNames: []model.CIStr{model.NewCIStr(yyS[yypt-4].ident)},
+				PartitionNames: []ast.CIStr{ast.NewCIStr(yyS[yypt-4].ident)},
 				NewTable:       yyS[yypt-1].item.(*ast.TableName),
 				WithValidation: yyS[yypt-0].item.(bool),
 			}
@@ -14130,7 +14129,7 @@ yynewstate:
 			if yyS[yypt-0].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 		}
@@ -14143,7 +14142,7 @@ yynewstate:
 			if yyS[yypt-0].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 		}
@@ -14156,7 +14155,7 @@ yynewstate:
 			if yyS[yypt-0].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 		}
@@ -14168,7 +14167,7 @@ yynewstate:
 			if yyS[yypt-1].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-1].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-1].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 			yylex.AppendError(yylex.Errorf("The IMPORT PARTITION TABLESPACE clause is parsed but ignored by all storage engines."))
@@ -14182,7 +14181,7 @@ yynewstate:
 			if yyS[yypt-1].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-1].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-1].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 			yylex.AppendError(yylex.Errorf("The DISCARD PARTITION TABLESPACE clause is parsed but ignored by all storage engines."))
@@ -14215,7 +14214,7 @@ yynewstate:
 			if yyS[yypt-0].item == nil {
 				ret.OnAllPartitions = true
 			} else {
-				ret.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+				ret.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			}
 			parser.yyVAL.item = ret
 		}
@@ -14308,8 +14307,8 @@ yynewstate:
 		}
 	case 123:
 		{
-			oldColName := &ast.ColumnName{Name: model.NewCIStr(yyS[yypt-2].ident)}
-			newColName := &ast.ColumnName{Name: model.NewCIStr(yyS[yypt-0].ident)}
+			oldColName := &ast.ColumnName{Name: ast.NewCIStr(yyS[yypt-2].ident)}
+			newColName := &ast.ColumnName{Name: ast.NewCIStr(yyS[yypt-0].ident)}
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				Tp:            ast.AlterTableRenameColumn,
 				OldColumnName: oldColName,
@@ -14341,8 +14340,8 @@ yynewstate:
 		{
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				Tp:      ast.AlterTableRenameIndex,
-				FromKey: model.NewCIStr(yyS[yypt-2].ident),
-				ToKey:   model.NewCIStr(yyS[yypt-0].ident),
+				FromKey: ast.NewCIStr(yyS[yypt-2].ident),
+				ToKey:   ast.NewCIStr(yyS[yypt-0].ident),
 			}
 		}
 	case 128:
@@ -14432,7 +14431,7 @@ yynewstate:
 		{
 			parser.yyVAL.item = &ast.AlterTableSpec{
 				Tp:         ast.AlterTableIndexInvisible,
-				IndexName:  model.NewCIStr(yyS[yypt-1].ident),
+				IndexName:  ast.NewCIStr(yyS[yypt-1].ident),
 				Visibility: yyS[yypt-0].item.(ast.IndexVisibility),
 			}
 		}
@@ -14460,7 +14459,7 @@ yynewstate:
 		{
 			ret := &ast.AlterTableSpec{
 				Tp:              ast.AlterTableReorganizePartition,
-				PartitionNames:  yyS[yypt-4].item.([]model.CIStr),
+				PartitionNames:  yyS[yypt-4].item.([]ast.CIStr),
 				PartDefinitions: yyS[yypt-1].item.([]*ast.PartitionDefinition),
 			}
 			parser.yyVAL.item = ret
@@ -14483,11 +14482,11 @@ yynewstate:
 		}
 	case 149:
 		{
-			parser.yyVAL.item = model.PrimaryKeyTypeClustered
+			parser.yyVAL.item = ast.PrimaryKeyTypeClustered
 		}
 	case 150:
 		{
-			parser.yyVAL.item = model.PrimaryKeyTypeNonClustered
+			parser.yyVAL.item = ast.PrimaryKeyTypeNonClustered
 		}
 	case 151:
 		{
@@ -14578,11 +14577,11 @@ yynewstate:
 		}
 	case 176:
 		{
-			parser.yyVAL.item = []model.CIStr{model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = []ast.CIStr{ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 177:
 		{
-			parser.yyVAL.item = append(yyS[yypt-2].item.([]model.CIStr), model.NewCIStr(yyS[yypt-0].ident))
+			parser.yyVAL.item = append(yyS[yypt-2].item.([]ast.CIStr), ast.NewCIStr(yyS[yypt-0].ident))
 		}
 	case 178:
 		{
@@ -14675,7 +14674,7 @@ yynewstate:
 	case 195:
 		{
 			parser.yyVAL.statement = &ast.FlashBackToTimestampStmt{
-				DBName:       model.NewCIStr(yyS[yypt-2].ident),
+				DBName:       ast.NewCIStr(yyS[yypt-2].ident),
 				FlashbackTS:  ast.NewValueExpr(yyS[yypt-0].ident, "", ""),
 				FlashbackTSO: 0,
 			}
@@ -14707,7 +14706,7 @@ yynewstate:
 		{
 			if tsoValue, ok := yyS[yypt-0].item.(uint64); ok && tsoValue > 0 {
 				parser.yyVAL.statement = &ast.FlashBackToTimestampStmt{
-					DBName:       model.NewCIStr(yyS[yypt-2].ident),
+					DBName:       ast.NewCIStr(yyS[yypt-2].ident),
 					FlashbackTSO: tsoValue,
 				}
 			} else {
@@ -14733,7 +14732,7 @@ yynewstate:
 	case 202:
 		{
 			parser.yyVAL.statement = &ast.FlashBackDatabaseStmt{
-				DBName:  model.NewCIStr(yyS[yypt-1].ident),
+				DBName:  ast.NewCIStr(yyS[yypt-1].ident),
 				NewName: yyS[yypt-0].ident,
 			}
 		}
@@ -14742,7 +14741,7 @@ yynewstate:
 			parser.yyVAL.statement = &ast.SplitRegionStmt{
 				SplitSyntaxOpt: yyS[yypt-4].item.(*ast.SplitSyntaxOption),
 				Table:          yyS[yypt-2].item.(*ast.TableName),
-				PartitionNames: yyS[yypt-1].item.([]model.CIStr),
+				PartitionNames: yyS[yypt-1].item.([]ast.CIStr),
 				SplitOpt:       yyS[yypt-0].item.(*ast.SplitOption),
 			}
 		}
@@ -14751,8 +14750,8 @@ yynewstate:
 			parser.yyVAL.statement = &ast.SplitRegionStmt{
 				SplitSyntaxOpt: yyS[yypt-6].item.(*ast.SplitSyntaxOption),
 				Table:          yyS[yypt-4].item.(*ast.TableName),
-				PartitionNames: yyS[yypt-3].item.([]model.CIStr),
-				IndexName:      model.NewCIStr(yyS[yypt-1].ident),
+				PartitionNames: yyS[yypt-3].item.([]ast.CIStr),
+				IndexName:      ast.NewCIStr(yyS[yypt-1].ident),
 				SplitOpt:       yyS[yypt-0].item.(*ast.SplitOption),
 			}
 		}
@@ -14795,27 +14794,27 @@ yynewstate:
 		}
 	case 211:
 		{
-			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: yyS[yypt-2].item.([]*ast.TableName), NoWriteToBinLog: yyS[yypt-4].item.(bool), ColumnChoice: yyS[yypt-1].item.(model.ColumnChoice), AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
+			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: yyS[yypt-2].item.([]*ast.TableName), NoWriteToBinLog: yyS[yypt-4].item.(bool), ColumnChoice: yyS[yypt-1].item.(ast.ColumnChoice), AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 212:
 		{
-			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-3].item.(*ast.TableName)}, NoWriteToBinLog: yyS[yypt-5].item.(bool), IndexNames: yyS[yypt-1].item.([]model.CIStr), IndexFlag: true, AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
+			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-3].item.(*ast.TableName)}, NoWriteToBinLog: yyS[yypt-5].item.(bool), IndexNames: yyS[yypt-1].item.([]ast.CIStr), IndexFlag: true, AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 213:
 		{
-			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-3].item.(*ast.TableName)}, NoWriteToBinLog: yyS[yypt-6].item.(bool), IndexNames: yyS[yypt-1].item.([]model.CIStr), IndexFlag: true, Incremental: true, AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
+			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-3].item.(*ast.TableName)}, NoWriteToBinLog: yyS[yypt-6].item.(bool), IndexNames: yyS[yypt-1].item.([]ast.CIStr), IndexFlag: true, Incremental: true, AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 214:
 		{
-			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-4].item.(*ast.TableName)}, NoWriteToBinLog: yyS[yypt-6].item.(bool), PartitionNames: yyS[yypt-2].item.([]model.CIStr), ColumnChoice: yyS[yypt-1].item.(model.ColumnChoice), AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
+			parser.yyVAL.statement = &ast.AnalyzeTableStmt{TableNames: []*ast.TableName{yyS[yypt-4].item.(*ast.TableName)}, NoWriteToBinLog: yyS[yypt-6].item.(bool), PartitionNames: yyS[yypt-2].item.([]ast.CIStr), ColumnChoice: yyS[yypt-1].item.(ast.ColumnChoice), AnalyzeOpts: yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 215:
 		{
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:      []*ast.TableName{yyS[yypt-5].item.(*ast.TableName)},
 				NoWriteToBinLog: yyS[yypt-7].item.(bool),
-				PartitionNames:  yyS[yypt-3].item.([]model.CIStr),
-				IndexNames:      yyS[yypt-1].item.([]model.CIStr),
+				PartitionNames:  yyS[yypt-3].item.([]ast.CIStr),
+				IndexNames:      yyS[yypt-1].item.([]ast.CIStr),
 				IndexFlag:       true,
 				AnalyzeOpts:     yyS[yypt-0].item.([]ast.AnalyzeOpt),
 			}
@@ -14825,8 +14824,8 @@ yynewstate:
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:      []*ast.TableName{yyS[yypt-5].item.(*ast.TableName)},
 				NoWriteToBinLog: yyS[yypt-8].item.(bool),
-				PartitionNames:  yyS[yypt-3].item.([]model.CIStr),
-				IndexNames:      yyS[yypt-1].item.([]model.CIStr),
+				PartitionNames:  yyS[yypt-3].item.([]ast.CIStr),
+				IndexNames:      yyS[yypt-1].item.([]ast.CIStr),
 				IndexFlag:       true,
 				Incremental:     true,
 				AnalyzeOpts:     yyS[yypt-0].item.([]ast.AnalyzeOpt),
@@ -14837,7 +14836,7 @@ yynewstate:
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:         []*ast.TableName{yyS[yypt-5].item.(*ast.TableName)},
 				NoWriteToBinLog:    yyS[yypt-7].item.(bool),
-				ColumnNames:        yyS[yypt-1].item.([]model.CIStr),
+				ColumnNames:        yyS[yypt-1].item.([]ast.CIStr),
 				AnalyzeOpts:        yyS[yypt-0].item.([]ast.AnalyzeOpt),
 				HistogramOperation: ast.HistogramOperationUpdate,
 			}
@@ -14847,7 +14846,7 @@ yynewstate:
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:         []*ast.TableName{yyS[yypt-4].item.(*ast.TableName)},
 				NoWriteToBinLog:    yyS[yypt-6].item.(bool),
-				ColumnNames:        yyS[yypt-0].item.([]model.CIStr),
+				ColumnNames:        yyS[yypt-0].item.([]ast.CIStr),
 				HistogramOperation: ast.HistogramOperationDrop,
 			}
 		}
@@ -14856,8 +14855,8 @@ yynewstate:
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:      []*ast.TableName{yyS[yypt-3].item.(*ast.TableName)},
 				NoWriteToBinLog: yyS[yypt-5].item.(bool),
-				ColumnNames:     yyS[yypt-1].item.([]model.CIStr),
-				ColumnChoice:    model.ColumnList,
+				ColumnNames:     yyS[yypt-1].item.([]ast.CIStr),
+				ColumnChoice:    ast.ColumnList,
 				AnalyzeOpts:     yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 220:
@@ -14865,22 +14864,22 @@ yynewstate:
 			parser.yyVAL.statement = &ast.AnalyzeTableStmt{
 				TableNames:      []*ast.TableName{yyS[yypt-5].item.(*ast.TableName)},
 				NoWriteToBinLog: yyS[yypt-7].item.(bool),
-				PartitionNames:  yyS[yypt-3].item.([]model.CIStr),
-				ColumnNames:     yyS[yypt-1].item.([]model.CIStr),
-				ColumnChoice:    model.ColumnList,
+				PartitionNames:  yyS[yypt-3].item.([]ast.CIStr),
+				ColumnNames:     yyS[yypt-1].item.([]ast.CIStr),
+				ColumnChoice:    ast.ColumnList,
 				AnalyzeOpts:     yyS[yypt-0].item.([]ast.AnalyzeOpt)}
 		}
 	case 221:
 		{
-			parser.yyVAL.item = model.DefaultChoice
+			parser.yyVAL.item = ast.DefaultChoice
 		}
 	case 222:
 		{
-			parser.yyVAL.item = model.AllColumns
+			parser.yyVAL.item = ast.AllColumns
 		}
 	case 223:
 		{
-			parser.yyVAL.item = model.PredicateColumns
+			parser.yyVAL.item = ast.PredicateColumns
 		}
 	case 224:
 		{
@@ -15010,15 +15009,15 @@ yynewstate:
 		}
 	case 249:
 		{
-			parser.yyVAL.item = &ast.ColumnName{Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = &ast.ColumnName{Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 250:
 		{
-			parser.yyVAL.item = &ast.ColumnName{Table: model.NewCIStr(yyS[yypt-2].ident), Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = &ast.ColumnName{Table: ast.NewCIStr(yyS[yypt-2].ident), Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 251:
 		{
-			parser.yyVAL.item = &ast.ColumnName{Schema: model.NewCIStr(yyS[yypt-4].ident), Table: model.NewCIStr(yyS[yypt-2].ident), Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = &ast.ColumnName{Schema: ast.NewCIStr(yyS[yypt-4].ident), Table: ast.NewCIStr(yyS[yypt-2].ident), Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 252:
 		{
@@ -15034,7 +15033,7 @@ yynewstate:
 		}
 	case 256:
 		{
-			parser.yyVAL.item = []model.CIStr{}
+			parser.yyVAL.item = []ast.CIStr{}
 		}
 	case 257:
 		{
@@ -15042,11 +15041,11 @@ yynewstate:
 		}
 	case 258:
 		{
-			parser.yyVAL.item = []model.CIStr{model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = []ast.CIStr{ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 259:
 		{
-			parser.yyVAL.item = append(yyS[yypt-2].item.([]model.CIStr), model.NewCIStr(yyS[yypt-0].ident))
+			parser.yyVAL.item = append(yyS[yypt-2].item.([]ast.CIStr), ast.NewCIStr(yyS[yypt-0].ident))
 		}
 	case 260:
 		{
@@ -15136,7 +15135,7 @@ yynewstate:
 			// KEY is normally a synonym for INDEX. The key attribute PRIMARY KEY
 			// can also be specified as just KEY when given in a column definition.
 			// See http://dev.mysql.com/doc/refman/5.7/en/create-table.html
-			parser.yyVAL.item = &ast.ColumnOption{Tp: ast.ColumnOptionPrimaryKey, PrimaryKeyTp: yyS[yypt-1].item.(model.PrimaryKeyType), StrValue: yyS[yypt-0].ident}
+			parser.yyVAL.item = &ast.ColumnOption{Tp: ast.ColumnOptionPrimaryKey, PrimaryKeyTp: yyS[yypt-1].item.(ast.PrimaryKeyType), StrValue: yyS[yypt-0].ident}
 		}
 	case 285:
 		{
@@ -15306,7 +15305,7 @@ yynewstate:
 				if c.Option == nil {
 					c.Option = &ast.IndexOption{}
 				}
-				c.Option.Tp = indexType.(model.IndexType)
+				c.Option.Tp = indexType.(ast.IndexType)
 			}
 			parser.yyVAL.item = c
 		}
@@ -15339,7 +15338,7 @@ yynewstate:
 				if c.Option == nil {
 					c.Option = &ast.IndexOption{}
 				}
-				c.Option.Tp = indexType.(model.IndexType)
+				c.Option.Tp = indexType.(ast.IndexType)
 			}
 			parser.yyVAL.item = c
 		}
@@ -15359,7 +15358,7 @@ yynewstate:
 				if c.Option == nil {
 					c.Option = &ast.IndexOption{}
 				}
-				c.Option.Tp = indexType.(model.IndexType)
+				c.Option.Tp = indexType.(ast.IndexType)
 			}
 			parser.yyVAL.item = c
 		}
@@ -15417,11 +15416,11 @@ yynewstate:
 		}
 	case 330:
 		{
-			parser.yyVAL.item = &ast.OnDeleteOpt{ReferOpt: yyS[yypt-0].item.(model.ReferOptionType)}
+			parser.yyVAL.item = &ast.OnDeleteOpt{ReferOpt: yyS[yypt-0].item.(ast.ReferOptionType)}
 		}
 	case 331:
 		{
-			parser.yyVAL.item = &ast.OnUpdateOpt{ReferOpt: yyS[yypt-0].item.(model.ReferOptionType)}
+			parser.yyVAL.item = &ast.OnUpdateOpt{ReferOpt: yyS[yypt-0].item.(ast.ReferOptionType)}
 		}
 	case 332:
 		{
@@ -15445,23 +15444,23 @@ yynewstate:
 		}
 	case 337:
 		{
-			parser.yyVAL.item = model.ReferOptionRestrict
+			parser.yyVAL.item = ast.ReferOptionRestrict
 		}
 	case 338:
 		{
-			parser.yyVAL.item = model.ReferOptionCascade
+			parser.yyVAL.item = ast.ReferOptionCascade
 		}
 	case 339:
 		{
-			parser.yyVAL.item = model.ReferOptionSetNull
+			parser.yyVAL.item = ast.ReferOptionSetNull
 		}
 	case 340:
 		{
-			parser.yyVAL.item = model.ReferOptionNoAction
+			parser.yyVAL.item = ast.ReferOptionNoAction
 		}
 	case 341:
 		{
-			parser.yyVAL.item = model.ReferOptionSetDefault
+			parser.yyVAL.item = ast.ReferOptionSetDefault
 			yylex.AppendError(yylex.Errorf("The SET DEFAULT clause is parsed but ignored by all storage engines."))
 			parser.lastErrorAsWarn()
 		}
@@ -15472,20 +15471,20 @@ yynewstate:
 	case 347:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-2].ident),
+				FnName: ast.NewCIStr(yyS[yypt-2].ident),
 			}
 		}
 	case 348:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   yyS[yypt-1].item.([]ast.ExprNode),
 			}
 		}
 	case 349:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   yyS[yypt-1].item.([]ast.ExprNode),
 			}
 		}
@@ -15495,23 +15494,23 @@ yynewstate:
 		}
 	case 352:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr("CURRENT_TIMESTAMP")}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr("CURRENT_TIMESTAMP")}
 		}
 	case 353:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr("CURRENT_TIMESTAMP")}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr("CURRENT_TIMESTAMP")}
 		}
 	case 354:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr("CURRENT_TIMESTAMP"), Args: []ast.ExprNode{ast.NewValueExpr(yyS[yypt-1].item, parser.charset, parser.collation)}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr("CURRENT_TIMESTAMP"), Args: []ast.ExprNode{ast.NewValueExpr(yyS[yypt-1].item, parser.charset, parser.collation)}}
 		}
 	case 355:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr("CURRENT_DATE")}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr("CURRENT_DATE")}
 		}
 	case 356:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr("CURRENT_DATE")}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr("CURRENT_DATE")}
 		}
 	case 357:
 		{
@@ -15523,7 +15522,7 @@ yynewstate:
 				Name: yyS[yypt-0].item.(*ast.TableName),
 			}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(ast.NextVal),
+				FnName: ast.NewCIStr(ast.NextVal),
 				Args:   []ast.ExprNode{objNameExpr},
 			}
 		}
@@ -15533,7 +15532,7 @@ yynewstate:
 				Name: yyS[yypt-1].item.(*ast.TableName),
 			}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(ast.NextVal),
+				FnName: ast.NewCIStr(ast.NextVal),
 				Args:   []ast.ExprNode{objNameExpr},
 			}
 		}
@@ -15588,15 +15587,15 @@ yynewstate:
 			var indexOption *ast.IndexOption
 			if yyS[yypt-1].item != nil {
 				indexOption = yyS[yypt-1].item.(*ast.IndexOption)
-				if indexOption.Tp == model.IndexTypeInvalid {
+				if indexOption.Tp == ast.IndexTypeInvalid {
 					if yyS[yypt-7].item != nil {
-						indexOption.Tp = yyS[yypt-7].item.(model.IndexType)
+						indexOption.Tp = yyS[yypt-7].item.(ast.IndexType)
 					}
 				}
 			} else {
 				indexOption = &ast.IndexOption{}
 				if yyS[yypt-7].item != nil {
-					indexOption.Tp = yyS[yypt-7].item.(model.IndexType)
+					indexOption.Tp = yyS[yypt-7].item.(ast.IndexType)
 				}
 			}
 			var indexLockAndAlgorithm *ast.IndexLockAndAlgorithm
@@ -15609,10 +15608,10 @@ yynewstate:
 
 			keyType := yyS[yypt-11].item.(ast.IndexKeyType)
 			isVectorIndex := keyType == ast.IndexKeyTypeVector
-			if isVectorIndex && indexOption.Tp == model.IndexTypeInvalid {
-				indexOption.Tp = model.IndexTypeHNSW
+			if isVectorIndex && indexOption.Tp == ast.IndexTypeInvalid {
+				indexOption.Tp = ast.IndexTypeHNSW
 			}
-			if (isVectorIndex && indexOption.Tp != model.IndexTypeHNSW) || (!isVectorIndex && indexOption.Tp == model.IndexTypeHNSW) {
+			if (isVectorIndex && indexOption.Tp != ast.IndexTypeHNSW) || (!isVectorIndex && indexOption.Tp == ast.IndexTypeHNSW) {
 				yylex.AppendError(ErrSyntax)
 				return 1
 			}
@@ -15713,7 +15712,7 @@ yynewstate:
 	case 400:
 		{
 			parser.yyVAL.statement = &ast.AlterDatabaseStmt{
-				Name:                 model.NewCIStr(yyS[yypt-1].ident),
+				Name:                 ast.NewCIStr(yyS[yypt-1].ident),
 				AlterDefaultDatabase: false,
 				Options:              yyS[yypt-0].item.([]*ast.DatabaseOption),
 			}
@@ -15721,7 +15720,7 @@ yynewstate:
 	case 401:
 		{
 			parser.yyVAL.statement = &ast.AlterDatabaseStmt{
-				Name:                 model.NewCIStr(""),
+				Name:                 ast.NewCIStr(""),
 				AlterDefaultDatabase: true,
 				Options:              yyS[yypt-0].item.([]*ast.DatabaseOption),
 			}
@@ -15730,7 +15729,7 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.CreateDatabaseStmt{
 				IfNotExists: yyS[yypt-2].item.(bool),
-				Name:        model.NewCIStr(yyS[yypt-1].ident),
+				Name:        ast.NewCIStr(yyS[yypt-1].ident),
 				Options:     yyS[yypt-0].item.([]*ast.DatabaseOption),
 			}
 		}
@@ -15898,7 +15897,7 @@ yynewstate:
 		{
 			keyAlgorithm, _ := yyS[yypt-3].item.(*ast.PartitionKeyAlgorithm)
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:           model.PartitionTypeKey,
+				Tp:           ast.PartitionTypeKey,
 				Linear:       len(yyS[yypt-5].ident) != 0,
 				ColumnNames:  yyS[yypt-1].item.([]*ast.ColumnName),
 				KeyAlgorithm: keyAlgorithm,
@@ -15907,7 +15906,7 @@ yynewstate:
 	case 434:
 		{
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:     model.PartitionTypeHash,
+				Tp:     ast.PartitionTypeHash,
 				Linear: len(yyS[yypt-4].ident) != 0,
 				Expr:   yyS[yypt-1].expr.(ast.ExprNode),
 			}
@@ -15931,7 +15930,7 @@ yynewstate:
 		{
 			partitionInterval, _ := yyS[yypt-0].item.(*ast.PartitionInterval)
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:       model.PartitionTypeRange,
+				Tp:       ast.PartitionTypeRange,
 				Expr:     yyS[yypt-2].expr.(ast.ExprNode),
 				Interval: partitionInterval,
 			}
@@ -15940,7 +15939,7 @@ yynewstate:
 		{
 			partitionInterval, _ := yyS[yypt-0].item.(*ast.PartitionInterval)
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:          model.PartitionTypeRange,
+				Tp:          ast.PartitionTypeRange,
 				ColumnNames: yyS[yypt-2].item.([]*ast.ColumnName),
 				Interval:    partitionInterval,
 			}
@@ -15948,21 +15947,21 @@ yynewstate:
 	case 440:
 		{
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:   model.PartitionTypeList,
+				Tp:   ast.PartitionTypeList,
 				Expr: yyS[yypt-1].expr.(ast.ExprNode),
 			}
 		}
 	case 441:
 		{
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:          model.PartitionTypeList,
+				Tp:          ast.PartitionTypeList,
 				ColumnNames: yyS[yypt-1].item.([]*ast.ColumnName),
 			}
 		}
 	case 442:
 		{
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:   model.PartitionTypeSystemTime,
+				Tp:   ast.PartitionTypeSystemTime,
 				Expr: yyS[yypt-1].expr.(ast.ExprNode),
 				Unit: yyS[yypt-0].item.(ast.TimeUnitType),
 			}
@@ -15970,14 +15969,14 @@ yynewstate:
 	case 443:
 		{
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp:    model.PartitionTypeSystemTime,
+				Tp:    ast.PartitionTypeSystemTime,
 				Limit: yyS[yypt-0].item.(uint64),
 			}
 		}
 	case 444:
 		{
 			parser.yyVAL.item = &ast.PartitionMethod{
-				Tp: model.PartitionTypeSystemTime,
+				Tp: ast.PartitionTypeSystemTime,
 			}
 		}
 	case 445:
@@ -16094,7 +16093,7 @@ yynewstate:
 	case 467:
 		{
 			parser.yyVAL.item = &ast.PartitionDefinition{
-				Name:    model.NewCIStr(yyS[yypt-3].ident),
+				Name:    ast.NewCIStr(yyS[yypt-3].ident),
 				Clause:  yyS[yypt-2].item.(ast.PartitionDefinitionClause),
 				Options: yyS[yypt-1].item.([]*ast.TableOption),
 				Sub:     yyS[yypt-0].item.([]*ast.SubPartitionDefinition),
@@ -16120,7 +16119,7 @@ yynewstate:
 	case 472:
 		{
 			parser.yyVAL.item = &ast.SubPartitionDefinition{
-				Name:    model.NewCIStr(yyS[yypt-1].ident),
+				Name:    ast.NewCIStr(yyS[yypt-1].ident),
 				Options: yyS[yypt-0].item.([]*ast.TableOption),
 			}
 		}
@@ -16297,18 +16296,18 @@ yynewstate:
 				OrReplace: yyS[yypt-9].item.(bool),
 				ViewName:  yyS[yypt-4].item.(*ast.TableName),
 				Select:    selStmt,
-				Algorithm: yyS[yypt-8].item.(model.ViewAlgorithm),
+				Algorithm: yyS[yypt-8].item.(ast.ViewAlgorithm),
 				Definer:   yyS[yypt-7].item.(*auth.UserIdentity),
-				Security:  yyS[yypt-6].item.(model.ViewSecurity),
+				Security:  yyS[yypt-6].item.(ast.ViewSecurity),
 			}
 			if yyS[yypt-3].item != nil {
-				x.Cols = yyS[yypt-3].item.([]model.CIStr)
+				x.Cols = yyS[yypt-3].item.([]ast.CIStr)
 			}
 			if yyS[yypt-0].item != nil {
-				x.CheckOption = yyS[yypt-0].item.(model.ViewCheckOption)
+				x.CheckOption = yyS[yypt-0].item.(ast.ViewCheckOption)
 				endOffset = parser.startOffset(&yyS[yypt])
 			} else {
-				x.CheckOption = model.CheckOptionCascaded
+				x.CheckOption = ast.CheckOptionCascaded
 			}
 			selStmt.SetText(parser.lexer.client, strings.TrimSpace(parser.src[startOffset:endOffset]))
 			parser.yyVAL.statement = x
@@ -16323,19 +16322,19 @@ yynewstate:
 		}
 	case 512:
 		{
-			parser.yyVAL.item = model.AlgorithmUndefined
+			parser.yyVAL.item = ast.AlgorithmUndefined
 		}
 	case 513:
 		{
-			parser.yyVAL.item = model.AlgorithmUndefined
+			parser.yyVAL.item = ast.AlgorithmUndefined
 		}
 	case 514:
 		{
-			parser.yyVAL.item = model.AlgorithmMerge
+			parser.yyVAL.item = ast.AlgorithmMerge
 		}
 	case 515:
 		{
-			parser.yyVAL.item = model.AlgorithmTemptable
+			parser.yyVAL.item = ast.AlgorithmTemptable
 		}
 	case 516:
 		{
@@ -16347,15 +16346,15 @@ yynewstate:
 		}
 	case 518:
 		{
-			parser.yyVAL.item = model.SecurityDefiner
+			parser.yyVAL.item = ast.SecurityDefiner
 		}
 	case 519:
 		{
-			parser.yyVAL.item = model.SecurityDefiner
+			parser.yyVAL.item = ast.SecurityDefiner
 		}
 	case 520:
 		{
-			parser.yyVAL.item = model.SecurityInvoker
+			parser.yyVAL.item = ast.SecurityInvoker
 		}
 	case 522:
 		{
@@ -16363,15 +16362,15 @@ yynewstate:
 		}
 	case 523:
 		{
-			parser.yyVAL.item = yyS[yypt-1].item.([]model.CIStr)
+			parser.yyVAL.item = yyS[yypt-1].item.([]ast.CIStr)
 		}
 	case 524:
 		{
-			parser.yyVAL.item = []model.CIStr{model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = []ast.CIStr{ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 525:
 		{
-			parser.yyVAL.item = append(yyS[yypt-2].item.([]model.CIStr), model.NewCIStr(yyS[yypt-0].ident))
+			parser.yyVAL.item = append(yyS[yypt-2].item.([]ast.CIStr), ast.NewCIStr(yyS[yypt-0].ident))
 		}
 	case 526:
 		{
@@ -16379,11 +16378,11 @@ yynewstate:
 		}
 	case 527:
 		{
-			parser.yyVAL.item = model.CheckOptionCascaded
+			parser.yyVAL.item = ast.CheckOptionCascaded
 		}
 	case 528:
 		{
-			parser.yyVAL.item = model.CheckOptionLocal
+			parser.yyVAL.item = ast.CheckOptionLocal
 		}
 	case 529:
 		{
@@ -16396,8 +16395,8 @@ yynewstate:
 			// Single Table
 			tn := yyS[yypt-6].item.(*ast.TableName)
 			tn.IndexHints = yyS[yypt-3].item.([]*ast.IndexHint)
-			tn.PartitionNames = yyS[yypt-5].item.([]model.CIStr)
-			join := &ast.Join{Left: &ast.TableSource{Source: tn, AsName: yyS[yypt-4].item.(model.CIStr)}, Right: nil}
+			tn.PartitionNames = yyS[yypt-5].item.([]ast.CIStr)
+			join := &ast.Join{Left: &ast.TableSource{Source: tn, AsName: yyS[yypt-4].item.(ast.CIStr)}, Right: nil}
 			x := &ast.DeleteStmt{
 				TableRefs: &ast.TableRefsClause{TableRefs: join},
 				Priority:  yyS[yypt-10].item.(mysql.PriorityEnum),
@@ -16472,7 +16471,7 @@ yynewstate:
 		}
 	case 538:
 		{
-			parser.yyVAL.statement = &ast.DropDatabaseStmt{IfExists: yyS[yypt-1].item.(bool), Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.statement = &ast.DropDatabaseStmt{IfExists: yyS[yypt-1].item.(bool), Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 539:
 		{
@@ -16549,7 +16548,7 @@ yynewstate:
 			parser.lastErrorAsWarn()
 			parser.yyVAL.statement = &ast.DropStatsStmt{
 				Tables:         []*ast.TableName{yyS[yypt-2].item.(*ast.TableName)},
-				PartitionNames: yyS[yypt-0].item.([]model.CIStr),
+				PartitionNames: yyS[yypt-0].item.([]ast.CIStr),
 			}
 		}
 	case 553:
@@ -17435,7 +17434,7 @@ yynewstate:
 		}
 	case 736:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.JSONMemberOf), Args: []ast.ExprNode{yyS[yypt-4].expr, yyS[yypt-1].expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.JSONMemberOf), Args: []ast.ExprNode{yyS[yypt-4].expr, yyS[yypt-1].expr}}
 		}
 	case 740:
 		{
@@ -17451,19 +17450,19 @@ yynewstate:
 		}
 	case 743:
 		{
-			wildCard := &ast.WildCardField{Table: model.NewCIStr(yyS[yypt-2].ident)}
+			wildCard := &ast.WildCardField{Table: ast.NewCIStr(yyS[yypt-2].ident)}
 			parser.yyVAL.item = &ast.SelectField{WildCard: wildCard}
 		}
 	case 744:
 		{
-			wildCard := &ast.WildCardField{Schema: model.NewCIStr(yyS[yypt-4].ident), Table: model.NewCIStr(yyS[yypt-2].ident)}
+			wildCard := &ast.WildCardField{Schema: ast.NewCIStr(yyS[yypt-4].ident), Table: ast.NewCIStr(yyS[yypt-2].ident)}
 			parser.yyVAL.item = &ast.SelectField{WildCard: wildCard}
 		}
 	case 745:
 		{
 			expr := yyS[yypt-1].expr
 			asName := yyS[yypt-0].ident
-			parser.yyVAL.item = &ast.SelectField{Expr: expr, AsName: model.NewCIStr(asName)}
+			parser.yyVAL.item = &ast.SelectField{Expr: expr, AsName: ast.NewCIStr(asName)}
 		}
 	case 746:
 		{
@@ -17588,7 +17587,7 @@ yynewstate:
 					opt1.ParserName = opt2.ParserName
 				} else if opt2.Visibility != ast.IndexVisibilityDefault {
 					opt1.Visibility = opt2.Visibility
-				} else if opt2.PrimaryKeyTp != model.PrimaryKeyTypeDefault {
+				} else if opt2.PrimaryKeyTp != ast.PrimaryKeyTypeDefault {
 					opt1.PrimaryKeyTp = opt2.PrimaryKeyTp
 				} else if opt2.Global {
 					opt1.Global = true
@@ -17607,13 +17606,13 @@ yynewstate:
 	case 773:
 		{
 			parser.yyVAL.item = &ast.IndexOption{
-				Tp: yyS[yypt-0].item.(model.IndexType),
+				Tp: yyS[yypt-0].item.(ast.IndexType),
 			}
 		}
 	case 774:
 		{
 			parser.yyVAL.item = &ast.IndexOption{
-				ParserName: model.NewCIStr(yyS[yypt-0].ident),
+				ParserName: ast.NewCIStr(yyS[yypt-0].ident),
 			}
 			yylex.AppendError(yylex.Errorf("The WITH PARASER clause is parsed but ignored by all storage engines."))
 			parser.lastErrorAsWarn()
@@ -17633,7 +17632,7 @@ yynewstate:
 	case 777:
 		{
 			parser.yyVAL.item = &ast.IndexOption{
-				PrimaryKeyTp: yyS[yypt-0].item.(model.PrimaryKeyType),
+				PrimaryKeyTp: yyS[yypt-0].item.(ast.PrimaryKeyType),
 			}
 		}
 	case 778:
@@ -17688,23 +17687,23 @@ yynewstate:
 		}
 	case 789:
 		{
-			parser.yyVAL.item = model.IndexTypeBtree
+			parser.yyVAL.item = ast.IndexTypeBtree
 		}
 	case 790:
 		{
-			parser.yyVAL.item = model.IndexTypeHash
+			parser.yyVAL.item = ast.IndexTypeHash
 		}
 	case 791:
 		{
-			parser.yyVAL.item = model.IndexTypeRtree
+			parser.yyVAL.item = ast.IndexTypeRtree
 		}
 	case 792:
 		{
-			parser.yyVAL.item = model.IndexTypeHypo
+			parser.yyVAL.item = ast.IndexTypeHypo
 		}
 	case 793:
 		{
-			parser.yyVAL.item = model.IndexTypeHNSW
+			parser.yyVAL.item = ast.IndexTypeHNSW
 		}
 	case 794:
 		{
@@ -17724,7 +17723,7 @@ yynewstate:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
 				Tp:     ast.FuncCallExprTypeGeneric,
-				FnName: model.NewCIStr(yyS[yypt-0].ident),
+				FnName: ast.NewCIStr(yyS[yypt-0].ident),
 				Args:   []ast.ExprNode{},
 			}
 		}
@@ -17732,8 +17731,8 @@ yynewstate:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
 				Tp:     ast.FuncCallExprTypeGeneric,
-				Schema: model.NewCIStr(yyS[yypt-2].ident),
-				FnName: model.NewCIStr(yyS[yypt-0].ident),
+				Schema: ast.NewCIStr(yyS[yypt-2].ident),
+				FnName: ast.NewCIStr(yyS[yypt-0].ident),
 				Args:   []ast.ExprNode{},
 			}
 		}
@@ -17741,7 +17740,7 @@ yynewstate:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
 				Tp:     ast.FuncCallExprTypeGeneric,
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   yyS[yypt-1].item.([]ast.ExprNode),
 			}
 		}
@@ -17749,8 +17748,8 @@ yynewstate:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
 				Tp:     ast.FuncCallExprTypeGeneric,
-				Schema: model.NewCIStr(yyS[yypt-5].ident),
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				Schema: ast.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   yyS[yypt-1].item.([]ast.ExprNode),
 			}
 		}
@@ -17768,7 +17767,7 @@ yynewstate:
 			if yyS[yypt-7].item != nil {
 				x.TableHints = yyS[yypt-7].item.([]*ast.TableOptimizerHint)
 			}
-			x.PartitionNames = yyS[yypt-2].item.([]model.CIStr)
+			x.PartitionNames = yyS[yypt-2].item.([]ast.CIStr)
 			parser.yyVAL.statement = x
 		}
 	case 1357:
@@ -17897,7 +17896,7 @@ yynewstate:
 			x.Priority = yyS[yypt-4].item.(mysql.PriorityEnum)
 			ts := &ast.TableSource{Source: yyS[yypt-2].item.(*ast.TableName)}
 			x.Table = &ast.TableRefsClause{TableRefs: &ast.Join{Left: ts}}
-			x.PartitionNames = yyS[yypt-1].item.([]model.CIStr)
+			x.PartitionNames = yyS[yypt-1].item.([]ast.CIStr)
 			parser.yyVAL.statement = x
 		}
 	case 1384:
@@ -18101,7 +18100,7 @@ yynewstate:
 	case 1419:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr("DATE_ADD"),
+				FnName: ast.NewCIStr("DATE_ADD"),
 				Args: []ast.ExprNode{
 					yyS[yypt-4].expr,
 					yyS[yypt-1].expr,
@@ -18112,7 +18111,7 @@ yynewstate:
 	case 1420:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr("DATE_SUB"),
+				FnName: ast.NewCIStr("DATE_SUB"),
 				Args: []ast.ExprNode{
 					yyS[yypt-4].expr,
 					yyS[yypt-1].expr,
@@ -18123,7 +18122,7 @@ yynewstate:
 	case 1421:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr("DATE_ADD"),
+				FnName: ast.NewCIStr("DATE_ADD"),
 				Args: []ast.ExprNode{
 					yyS[yypt-0].expr,
 					yyS[yypt-3].expr,
@@ -18158,22 +18157,22 @@ yynewstate:
 	case 1429:
 		{
 			parser.yyVAL.expr = &ast.ColumnNameExpr{Name: &ast.ColumnName{
-				Name: model.NewCIStr(yyS[yypt-0].ident),
+				Name: ast.NewCIStr(yyS[yypt-0].ident),
 			}}
 		}
 	case 1430:
 		{
 			parser.yyVAL.expr = &ast.ColumnNameExpr{Name: &ast.ColumnName{
-				Table: model.NewCIStr(yyS[yypt-2].ident),
-				Name:  model.NewCIStr(yyS[yypt-0].ident),
+				Table: ast.NewCIStr(yyS[yypt-2].ident),
+				Name:  ast.NewCIStr(yyS[yypt-0].ident),
 			}}
 		}
 	case 1431:
 		{
 			parser.yyVAL.expr = &ast.ColumnNameExpr{Name: &ast.ColumnName{
-				Schema: model.NewCIStr(yyS[yypt-4].ident),
-				Table:  model.NewCIStr(yyS[yypt-2].ident),
-				Name:   model.NewCIStr(yyS[yypt-0].ident),
+				Schema: ast.NewCIStr(yyS[yypt-4].ident),
+				Table:  ast.NewCIStr(yyS[yypt-2].ident),
+				Name:   ast.NewCIStr(yyS[yypt-0].ident),
 			}}
 		}
 	case 1436:
@@ -18202,7 +18201,7 @@ yynewstate:
 		}
 	case 1446:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.Concat), Args: []ast.ExprNode{yyS[yypt-2].expr, yyS[yypt-0].expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.Concat), Args: []ast.ExprNode{yyS[yypt-2].expr, yyS[yypt-0].expr}}
 		}
 	case 1447:
 		{
@@ -18243,15 +18242,15 @@ yynewstate:
 			case "d":
 				tp.SetCharset("")
 				tp.SetCollate("")
-				parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.DateLiteral), Args: []ast.ExprNode{yyS[yypt-1].expr}}
+				parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.DateLiteral), Args: []ast.ExprNode{yyS[yypt-1].expr}}
 			case "t":
 				tp.SetCharset("")
 				tp.SetCollate("")
-				parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.TimeLiteral), Args: []ast.ExprNode{yyS[yypt-1].expr}}
+				parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.TimeLiteral), Args: []ast.ExprNode{yyS[yypt-1].expr}}
 			case "ts":
 				tp.SetCharset("")
 				tp.SetCollate("")
-				parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.TimestampLiteral), Args: []ast.ExprNode{yyS[yypt-1].expr}}
+				parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.TimestampLiteral), Args: []ast.ExprNode{yyS[yypt-1].expr}}
 			default:
 				parser.yyVAL.expr = yyS[yypt-1].expr
 			}
@@ -18331,7 +18330,7 @@ yynewstate:
 			// See https://dev.mysql.com/doc/refman/5.7/en/cast-functions.html#function_convert
 			charset1 := ast.NewValueExpr(yyS[yypt-1].ident, "", "")
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args:   []ast.ExprNode{yyS[yypt-3].expr, charset1},
 			}
 		}
@@ -18346,13 +18345,13 @@ yynewstate:
 	case 1461:
 		{
 			expr := ast.NewValueExpr(yyS[yypt-0].ident, parser.charset, parser.collation)
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.JSONExtract), Args: []ast.ExprNode{yyS[yypt-2].expr, expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.JSONExtract), Args: []ast.ExprNode{yyS[yypt-2].expr, expr}}
 		}
 	case 1462:
 		{
 			expr := ast.NewValueExpr(yyS[yypt-0].ident, parser.charset, parser.collation)
-			extract := &ast.FuncCallExpr{FnName: model.NewCIStr(ast.JSONExtract), Args: []ast.ExprNode{yyS[yypt-2].expr, expr}}
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.JSONUnquote), Args: []ast.ExprNode{extract}}
+			extract := &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.JSONExtract), Args: []ast.ExprNode{yyS[yypt-2].expr, expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.JSONUnquote), Args: []ast.ExprNode{extract}}
 		}
 	case 1463:
 		{
@@ -18384,19 +18383,19 @@ yynewstate:
 		}
 	case 1519:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1520:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1521:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-1].ident)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-1].ident)}
 		}
 	case 1522:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-2].ident)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-2].ident)}
 		}
 	case 1523:
 		{
@@ -18404,14 +18403,14 @@ yynewstate:
 			if yyS[yypt-0].item != nil {
 				args = append(args, yyS[yypt-0].item.(ast.ExprNode))
 			}
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-1].ident), Args: args}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-1].ident), Args: args}
 		}
 	case 1524:
 		{
 			nilVal := ast.NewValueExpr(nil, parser.charset, parser.collation)
 			args := yyS[yypt-1].item.([]ast.ExprNode)
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(ast.CharFunc),
+				FnName: ast.NewCIStr(ast.CharFunc),
 				Args:   append(args, nilVal),
 			}
 		}
@@ -18420,28 +18419,28 @@ yynewstate:
 			charset1 := ast.NewValueExpr(yyS[yypt-1].ident, "", "")
 			args := yyS[yypt-3].item.([]ast.ExprNode)
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(ast.CharFunc),
+				FnName: ast.NewCIStr(ast.CharFunc),
 				Args:   append(args, charset1),
 			}
 		}
 	case 1526:
 		{
 			expr := ast.NewValueExpr(yyS[yypt-0].ident, "", "")
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.DateLiteral), Args: []ast.ExprNode{expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.DateLiteral), Args: []ast.ExprNode{expr}}
 		}
 	case 1527:
 		{
 			expr := ast.NewValueExpr(yyS[yypt-0].ident, "", "")
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.TimeLiteral), Args: []ast.ExprNode{expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.TimeLiteral), Args: []ast.ExprNode{expr}}
 		}
 	case 1528:
 		{
 			expr := ast.NewValueExpr(yyS[yypt-0].ident, "", "")
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.TimestampLiteral), Args: []ast.ExprNode{expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.TimestampLiteral), Args: []ast.ExprNode{expr}}
 		}
 	case 1529:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.InsertFunc), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.InsertFunc), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1530:
 		{
@@ -18449,20 +18448,20 @@ yynewstate:
 		}
 	case 1531:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(ast.PasswordFunc), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(ast.PasswordFunc), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1532:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1533:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1534:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args: []ast.ExprNode{
 					yyS[yypt-3].expr,
 					yyS[yypt-1].expr,
@@ -18473,7 +18472,7 @@ yynewstate:
 	case 1535:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args: []ast.ExprNode{
 					yyS[yypt-5].expr,
 					yyS[yypt-2].expr,
@@ -18484,7 +18483,7 @@ yynewstate:
 	case 1536:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args: []ast.ExprNode{
 					yyS[yypt-5].expr,
 					yyS[yypt-2].expr,
@@ -18496,14 +18495,14 @@ yynewstate:
 		{
 			timeUnit := &ast.TimeUnitExpr{Unit: yyS[yypt-3].item.(ast.TimeUnitType)}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args:   []ast.ExprNode{timeUnit, yyS[yypt-1].expr},
 			}
 		}
 	case 1538:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args: []ast.ExprNode{
 					&ast.GetFormatSelectorExpr{Selector: yyS[yypt-3].item.(ast.GetFormatSelectorType)},
 					yyS[yypt-1].expr,
@@ -18512,61 +18511,61 @@ yynewstate:
 		}
 	case 1539:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-5].ident), Args: []ast.ExprNode{yyS[yypt-3].expr, yyS[yypt-1].expr}}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-5].ident), Args: []ast.ExprNode{yyS[yypt-3].expr, yyS[yypt-1].expr}}
 		}
 	case 1540:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args:   []ast.ExprNode{yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1541:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args:   []ast.ExprNode{yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1542:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args:   []ast.ExprNode{yyS[yypt-5].expr, yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1543:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args:   []ast.ExprNode{yyS[yypt-5].expr, yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1544:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args:   []ast.ExprNode{&ast.TimeUnitExpr{Unit: yyS[yypt-5].item.(ast.TimeUnitType)}, yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1545:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args:   []ast.ExprNode{&ast.TimeUnitExpr{Unit: yyS[yypt-5].item.(ast.TimeUnitType)}, yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1546:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   []ast.ExprNode{yyS[yypt-1].expr},
 			}
 		}
 	case 1547:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args:   []ast.ExprNode{yyS[yypt-1].expr, yyS[yypt-3].expr},
 			}
 		}
@@ -18575,7 +18574,7 @@ yynewstate:
 			spaceVal := ast.NewValueExpr(" ", parser.charset, parser.collation)
 			direction := &ast.TrimDirectionExpr{Direction: yyS[yypt-3].item.(ast.TrimDirectionType)}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-5].ident),
 				Args:   []ast.ExprNode{yyS[yypt-1].expr, spaceVal, direction},
 			}
 		}
@@ -18583,41 +18582,41 @@ yynewstate:
 		{
 			direction := &ast.TrimDirectionExpr{Direction: yyS[yypt-4].item.(ast.TrimDirectionType)}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-6].ident),
+				FnName: ast.NewCIStr(yyS[yypt-6].ident),
 				Args:   []ast.ExprNode{yyS[yypt-1].expr, yyS[yypt-3].expr, direction},
 			}
 		}
 	case 1550:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   []ast.ExprNode{yyS[yypt-1].expr},
 			}
 		}
 	case 1551:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-6].ident),
+				FnName: ast.NewCIStr(yyS[yypt-6].ident),
 				Args:   []ast.ExprNode{yyS[yypt-4].expr, ast.NewValueExpr("CHAR", parser.charset, parser.collation), ast.NewValueExpr(yyS[yypt-1].item, parser.charset, parser.collation)},
 			}
 		}
 	case 1552:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-6].ident),
+				FnName: ast.NewCIStr(yyS[yypt-6].ident),
 				Args:   []ast.ExprNode{yyS[yypt-4].expr, ast.NewValueExpr("BINARY", parser.charset, parser.collation), ast.NewValueExpr(yyS[yypt-1].item, parser.charset, parser.collation)},
 			}
 		}
 	case 1554:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-7].ident),
+				FnName: ast.NewCIStr(yyS[yypt-7].ident),
 				Args:   []ast.ExprNode{yyS[yypt-5].expr, yyS[yypt-3].expr, yyS[yypt-1].expr},
 			}
 		}
 	case 1555:
 		{
-			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: model.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
+			parser.yyVAL.expr = &ast.FuncCallExpr{FnName: ast.NewCIStr(yyS[yypt-3].ident), Args: yyS[yypt-1].item.([]ast.ExprNode)}
 		}
 	case 1556:
 		{
@@ -18653,7 +18652,7 @@ yynewstate:
 				Name: yyS[yypt-1].item.(*ast.TableName),
 			}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(ast.LastVal),
+				FnName: ast.NewCIStr(ast.LastVal),
 				Args:   []ast.ExprNode{objNameExpr},
 			}
 		}
@@ -18664,7 +18663,7 @@ yynewstate:
 			}
 			valueExpr := ast.NewValueExpr(yyS[yypt-1].item, parser.charset, parser.collation)
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(ast.SetVal),
+				FnName: ast.NewCIStr(ast.SetVal),
 				Args:   []ast.ExprNode{objNameExpr, valueExpr},
 			}
 		}
@@ -18890,7 +18889,7 @@ yynewstate:
 	case 1599:
 		{
 			parser.yyVAL.expr = &ast.FuncCallExpr{
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   yyS[yypt-1].item.([]ast.ExprNode),
 			}
 		}
@@ -18904,8 +18903,8 @@ yynewstate:
 			}
 			parser.yyVAL.expr = &ast.FuncCallExpr{
 				Tp:     tp,
-				Schema: model.NewCIStr(yyS[yypt-5].ident),
-				FnName: model.NewCIStr(yyS[yypt-3].ident),
+				Schema: ast.NewCIStr(yyS[yypt-5].ident),
+				FnName: ast.NewCIStr(yyS[yypt-3].ident),
 				Args:   yyS[yypt-1].item.([]ast.ExprNode),
 			}
 		}
@@ -19250,7 +19249,7 @@ yynewstate:
 		}
 	case 1659:
 		{
-			parser.yyVAL.item = &ast.TableName{Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = &ast.TableName{Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 1660:
 		{
@@ -19259,11 +19258,11 @@ yynewstate:
 				yylex.AppendError(ErrWrongDBName.GenWithStackByArgs(schema))
 				return 1
 			}
-			parser.yyVAL.item = &ast.TableName{Schema: model.NewCIStr(schema), Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = &ast.TableName{Schema: ast.NewCIStr(schema), Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 1661:
 		{
-			parser.yyVAL.item = &ast.TableName{Schema: model.NewCIStr("*"), Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = &ast.TableName{Schema: ast.NewCIStr("*"), Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 1662:
 		{
@@ -19276,11 +19275,11 @@ yynewstate:
 		}
 	case 1664:
 		{
-			parser.yyVAL.item = &ast.TableName{Name: model.NewCIStr(yyS[yypt-1].ident)}
+			parser.yyVAL.item = &ast.TableName{Name: ast.NewCIStr(yyS[yypt-1].ident)}
 		}
 	case 1665:
 		{
-			parser.yyVAL.item = &ast.TableName{Schema: model.NewCIStr(yyS[yypt-3].ident), Name: model.NewCIStr(yyS[yypt-1].ident)}
+			parser.yyVAL.item = &ast.TableName{Schema: ast.NewCIStr(yyS[yypt-3].ident), Name: ast.NewCIStr(yyS[yypt-1].ident)}
 		}
 	case 1666:
 		{
@@ -19671,8 +19670,8 @@ yynewstate:
 	case 1722:
 		{
 			cte := &ast.CommonTableExpression{}
-			cte.Name = model.NewCIStr(yyS[yypt-3].ident)
-			cte.ColNameList = yyS[yypt-2].item.([]model.CIStr)
+			cte.Name = ast.NewCIStr(yyS[yypt-3].ident)
+			cte.ColNameList = yyS[yypt-2].item.([]ast.CIStr)
 			cte.Query = yyS[yypt-0].expr.(*ast.SubqueryExpr)
 			parser.yyVAL.item = cte
 		}
@@ -19695,12 +19694,12 @@ yynewstate:
 	case 1728:
 		{
 			var spec = yyS[yypt-0].item.(ast.WindowSpec)
-			spec.Name = yyS[yypt-2].item.(model.CIStr)
+			spec.Name = yyS[yypt-2].item.(ast.CIStr)
 			parser.yyVAL.item = spec
 		}
 	case 1729:
 		{
-			parser.yyVAL.item = model.NewCIStr(yyS[yypt-0].ident)
+			parser.yyVAL.item = ast.NewCIStr(yyS[yypt-0].ident)
 		}
 	case 1730:
 		{
@@ -19708,7 +19707,7 @@ yynewstate:
 		}
 	case 1731:
 		{
-			spec := ast.WindowSpec{Ref: yyS[yypt-3].item.(model.CIStr)}
+			spec := ast.WindowSpec{Ref: yyS[yypt-3].item.(ast.CIStr)}
 			if yyS[yypt-2].item != nil {
 				spec.PartitionBy = yyS[yypt-2].item.(*ast.PartitionByClause)
 			}
@@ -19722,7 +19721,7 @@ yynewstate:
 		}
 	case 1732:
 		{
-			parser.yyVAL.item = model.CIStr{}
+			parser.yyVAL.item = ast.CIStr{}
 		}
 	case 1734:
 		{
@@ -19825,7 +19824,7 @@ yynewstate:
 		}
 	case 1759:
 		{
-			parser.yyVAL.item = ast.WindowSpec{Name: yyS[yypt-0].item.(model.CIStr), OnlyAlias: true}
+			parser.yyVAL.item = ast.WindowSpec{Name: yyS[yypt-0].item.(ast.CIStr), OnlyAlias: true}
 		}
 	case 1761:
 		{
@@ -19960,7 +19959,7 @@ yynewstate:
 	case 1790:
 		{
 			tn := yyS[yypt-5].item.(*ast.TableName)
-			tn.PartitionNames = yyS[yypt-4].item.([]model.CIStr)
+			tn.PartitionNames = yyS[yypt-4].item.([]ast.CIStr)
 			tn.IndexHints = yyS[yypt-1].item.([]*ast.IndexHint)
 			if yyS[yypt-0].item != nil {
 				tn.TableSample = yyS[yypt-0].item.(*ast.TableSample)
@@ -19968,12 +19967,12 @@ yynewstate:
 			if yyS[yypt-2].item != nil {
 				tn.AsOf = yyS[yypt-2].item.(*ast.AsOfClause)
 			}
-			parser.yyVAL.item = &ast.TableSource{Source: tn, AsName: yyS[yypt-3].item.(model.CIStr)}
+			parser.yyVAL.item = &ast.TableSource{Source: tn, AsName: yyS[yypt-3].item.(ast.CIStr)}
 		}
 	case 1791:
 		{
 			resultNode := yyS[yypt-1].expr.(*ast.SubqueryExpr).Query
-			parser.yyVAL.item = &ast.TableSource{Source: resultNode, AsName: yyS[yypt-0].item.(model.CIStr)}
+			parser.yyVAL.item = &ast.TableSource{Source: resultNode, AsName: yyS[yypt-0].item.(ast.CIStr)}
 		}
 	case 1792:
 		{
@@ -19983,7 +19982,7 @@ yynewstate:
 		}
 	case 1793:
 		{
-			parser.yyVAL.item = []model.CIStr{}
+			parser.yyVAL.item = []ast.CIStr{}
 		}
 	case 1794:
 		{
@@ -19991,15 +19990,15 @@ yynewstate:
 		}
 	case 1795:
 		{
-			parser.yyVAL.item = model.CIStr{}
+			parser.yyVAL.item = ast.CIStr{}
 		}
 	case 1797:
 		{
-			parser.yyVAL.item = model.NewCIStr(yyS[yypt-0].ident)
+			parser.yyVAL.item = ast.NewCIStr(yyS[yypt-0].ident)
 		}
 	case 1798:
 		{
-			parser.yyVAL.item = model.NewCIStr(yyS[yypt-0].ident)
+			parser.yyVAL.item = ast.NewCIStr(yyS[yypt-0].ident)
 		}
 	case 1799:
 		{
@@ -20032,31 +20031,31 @@ yynewstate:
 	case 1806:
 		{
 			parser.yyVAL.item = &ast.IndexHint{
-				IndexNames: yyS[yypt-1].item.([]model.CIStr),
+				IndexNames: yyS[yypt-1].item.([]ast.CIStr),
 				HintType:   yyS[yypt-4].item.(ast.IndexHintType),
 				HintScope:  yyS[yypt-3].item.(ast.IndexHintScope),
 			}
 		}
 	case 1807:
 		{
-			var nameList []model.CIStr
+			var nameList []ast.CIStr
 			parser.yyVAL.item = nameList
 		}
 	case 1808:
 		{
-			parser.yyVAL.item = []model.CIStr{model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = []ast.CIStr{ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 1809:
 		{
-			parser.yyVAL.item = append(yyS[yypt-2].item.([]model.CIStr), model.NewCIStr(yyS[yypt-0].ident))
+			parser.yyVAL.item = append(yyS[yypt-2].item.([]ast.CIStr), ast.NewCIStr(yyS[yypt-0].ident))
 		}
 	case 1810:
 		{
-			parser.yyVAL.item = []model.CIStr{model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.item = []ast.CIStr{ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 1811:
 		{
-			parser.yyVAL.item = append(yyS[yypt-2].item.([]model.CIStr), model.NewCIStr(yyS[yypt-0].ident))
+			parser.yyVAL.item = append(yyS[yypt-2].item.([]ast.CIStr), ast.NewCIStr(yyS[yypt-0].ident))
 		}
 	case 1812:
 		{
@@ -20742,7 +20741,7 @@ yynewstate:
 		}
 	case 1916:
 		{
-			parser.yyVAL.statement = &ast.SetResourceGroupStmt{Name: model.NewCIStr(yyS[yypt-0].ident)}
+			parser.yyVAL.statement = &ast.SetResourceGroupStmt{Name: ast.NewCIStr(yyS[yypt-0].ident)}
 		}
 	case 1917:
 		{
@@ -21446,7 +21445,7 @@ yynewstate:
 				Tp:    ast.ShowRegions,
 				Table: yyS[yypt-3].item.(*ast.TableName),
 			}
-			stmt.Table.PartitionNames = yyS[yypt-2].item.([]model.CIStr)
+			stmt.Table.PartitionNames = yyS[yypt-2].item.([]ast.CIStr)
 			if yyS[yypt-0].item != nil {
 				stmt.Where = yyS[yypt-0].item.(ast.ExprNode)
 			}
@@ -21464,9 +21463,9 @@ yynewstate:
 			stmt := &ast.ShowStmt{
 				Tp:        ast.ShowRegions,
 				Table:     yyS[yypt-5].item.(*ast.TableName),
-				IndexName: model.NewCIStr(yyS[yypt-2].ident),
+				IndexName: ast.NewCIStr(yyS[yypt-2].ident),
 			}
-			stmt.Table.PartitionNames = yyS[yypt-4].item.([]model.CIStr)
+			stmt.Table.PartitionNames = yyS[yypt-4].item.([]ast.CIStr)
 			if yyS[yypt-0].item != nil {
 				stmt.Where = yyS[yypt-0].item.(ast.ExprNode)
 			}
@@ -21591,7 +21590,7 @@ yynewstate:
 			parser.yyVAL.item = &ast.ShowStmt{
 				Tp:        ast.ShowPlacementForPartition,
 				Table:     yyS[yypt-2].item.(*ast.TableName),
-				Partition: model.NewCIStr(yyS[yypt-0].ident),
+				Partition: ast.NewCIStr(yyS[yypt-0].ident),
 			}
 		}
 	case 2065:
@@ -21710,7 +21709,7 @@ yynewstate:
 		{
 			show := &ast.ShowStmt{
 				Tp:    ast.ShowIndex,
-				Table: &ast.TableName{Name: model.NewCIStr(yyS[yypt-2].ident), Schema: model.NewCIStr(yyS[yypt-0].ident)},
+				Table: &ast.TableName{Name: ast.NewCIStr(yyS[yypt-2].ident), Schema: ast.NewCIStr(yyS[yypt-0].ident)},
 			}
 			parser.yyVAL.item = show
 		}
@@ -21828,11 +21827,11 @@ yynewstate:
 		}
 	case 2114:
 		{
-			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsMeta, Table: &ast.TableName{Name: model.NewCIStr("STATS_META"), Schema: model.NewCIStr(mysql.SystemDB)}}
+			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsMeta, Table: &ast.TableName{Name: ast.NewCIStr("STATS_META"), Schema: ast.NewCIStr(mysql.SystemDB)}}
 		}
 	case 2115:
 		{
-			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsHistograms, Table: &ast.TableName{Name: model.NewCIStr("STATS_HISTOGRAMS"), Schema: model.NewCIStr(mysql.SystemDB)}}
+			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsHistograms, Table: &ast.TableName{Name: ast.NewCIStr("STATS_HISTOGRAMS"), Schema: ast.NewCIStr(mysql.SystemDB)}}
 		}
 	case 2116:
 		{
@@ -21840,7 +21839,7 @@ yynewstate:
 		}
 	case 2117:
 		{
-			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsBuckets, Table: &ast.TableName{Name: model.NewCIStr("STATS_BUCKETS"), Schema: model.NewCIStr(mysql.SystemDB)}}
+			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsBuckets, Table: &ast.TableName{Name: ast.NewCIStr("STATS_BUCKETS"), Schema: ast.NewCIStr(mysql.SystemDB)}}
 		}
 	case 2118:
 		{
@@ -21848,7 +21847,7 @@ yynewstate:
 		}
 	case 2119:
 		{
-			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsLocked, Table: &ast.TableName{Name: model.NewCIStr("STATS_TABLE_LOCKED"), Schema: model.NewCIStr(mysql.SystemDB)}}
+			parser.yyVAL.item = &ast.ShowStmt{Tp: ast.ShowStatsLocked, Table: &ast.TableName{Name: ast.NewCIStr("STATS_TABLE_LOCKED"), Schema: ast.NewCIStr(mysql.SystemDB)}}
 		}
 	case 2120:
 		{
@@ -22139,14 +22138,14 @@ yynewstate:
 				if c.Option == nil {
 					c.Option = &ast.IndexOption{}
 				}
-				c.Option.Tp = indexType.(model.IndexType)
+				c.Option.Tp = indexType.(ast.IndexType)
 			}
 			if c.Option == nil {
-				c.Option = &ast.IndexOption{Tp: model.IndexTypeHNSW}
-			} else if c.Option.Tp == model.IndexTypeInvalid {
-				c.Option.Tp = model.IndexTypeHNSW
+				c.Option = &ast.IndexOption{Tp: ast.IndexTypeHNSW}
+			} else if c.Option.Tp == ast.IndexTypeInvalid {
+				c.Option.Tp = ast.IndexTypeHNSW
 			}
-			if c.Option.Tp != model.IndexTypeHNSW {
+			if c.Option.Tp != ast.IndexTypeHNSW {
 				yylex.AppendError(ErrSyntax)
 				return 1
 			}
@@ -22391,7 +22390,7 @@ yynewstate:
 		{
 			parser.yyVAL.item = &ast.TableOption{
 				Tp:            ast.TableOptionTTL,
-				ColumnName:    &ast.ColumnName{Name: model.NewCIStr(yyS[yypt-4].ident)},
+				ColumnName:    &ast.ColumnName{Name: ast.NewCIStr(yyS[yypt-4].ident)},
 				Value:         ast.NewValueExpr(yyS[yypt-1].expr, parser.charset, parser.collation),
 				TimeUnitValue: &ast.TimeUnitExpr{Unit: yyS[yypt-0].item.(ast.TimeUnitType)},
 			}
@@ -23247,7 +23246,7 @@ yynewstate:
 	case 2510:
 		{
 			option := yyS[yypt-0].item.(*ast.PlacementOption)
-			parser.yyVAL.statement = &ast.AlterRangeStmt{RangeName: model.NewCIStr(yyS[yypt-1].ident), PlacementOption: option}
+			parser.yyVAL.statement = &ast.AlterRangeStmt{RangeName: ast.NewCIStr(yyS[yypt-1].ident), PlacementOption: option}
 		}
 	case 2511:
 		{
@@ -24510,24 +24509,24 @@ yynewstate:
 		{
 			parser.yyVAL.item = ast.TableLock{
 				Table: yyS[yypt-1].item.(*ast.TableName),
-				Type:  yyS[yypt-0].item.(model.TableLockType),
+				Type:  yyS[yypt-0].item.(ast.TableLockType),
 			}
 		}
 	case 2725:
 		{
-			parser.yyVAL.item = model.TableLockRead
+			parser.yyVAL.item = ast.TableLockRead
 		}
 	case 2726:
 		{
-			parser.yyVAL.item = model.TableLockReadLocal
+			parser.yyVAL.item = ast.TableLockReadLocal
 		}
 	case 2727:
 		{
-			parser.yyVAL.item = model.TableLockWrite
+			parser.yyVAL.item = ast.TableLockWrite
 		}
 	case 2728:
 		{
-			parser.yyVAL.item = model.TableLockWriteLocal
+			parser.yyVAL.item = ast.TableLockWriteLocal
 		}
 	case 2729:
 		{
@@ -24625,7 +24624,7 @@ yynewstate:
 	case 2750:
 		{
 			x := yyS[yypt-2].item.(*ast.TableName)
-			x.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+			x.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			parser.yyVAL.statement = &ast.LockStatsStmt{
 				Tables: []*ast.TableName{x},
 			}
@@ -24633,7 +24632,7 @@ yynewstate:
 	case 2751:
 		{
 			x := yyS[yypt-4].item.(*ast.TableName)
-			x.PartitionNames = yyS[yypt-1].item.([]model.CIStr)
+			x.PartitionNames = yyS[yypt-1].item.([]ast.CIStr)
 			parser.yyVAL.statement = &ast.LockStatsStmt{
 				Tables: []*ast.TableName{x},
 			}
@@ -24647,7 +24646,7 @@ yynewstate:
 	case 2753:
 		{
 			x := yyS[yypt-2].item.(*ast.TableName)
-			x.PartitionNames = yyS[yypt-0].item.([]model.CIStr)
+			x.PartitionNames = yyS[yypt-0].item.([]ast.CIStr)
 			parser.yyVAL.statement = &ast.UnlockStatsStmt{
 				Tables: []*ast.TableName{x},
 			}
@@ -24655,7 +24654,7 @@ yynewstate:
 	case 2754:
 		{
 			x := yyS[yypt-4].item.(*ast.TableName)
-			x.PartitionNames = yyS[yypt-1].item.([]model.CIStr)
+			x.PartitionNames = yyS[yypt-1].item.([]ast.CIStr)
 			parser.yyVAL.statement = &ast.UnlockStatsStmt{
 				Tables: []*ast.TableName{x},
 			}
@@ -24664,14 +24663,14 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.DropPlacementPolicyStmt{
 				IfExists:   yyS[yypt-1].item.(bool),
-				PolicyName: model.NewCIStr(yyS[yypt-0].ident),
+				PolicyName: ast.NewCIStr(yyS[yypt-0].ident),
 			}
 		}
 	case 2756:
 		{
 			parser.yyVAL.statement = &ast.CreateResourceGroupStmt{
 				IfNotExists:             yyS[yypt-2].item.(bool),
-				ResourceGroupName:       model.NewCIStr(yyS[yypt-1].ident),
+				ResourceGroupName:       ast.NewCIStr(yyS[yypt-1].ident),
 				ResourceGroupOptionList: yyS[yypt-0].item.([]*ast.ResourceGroupOption),
 			}
 		}
@@ -24679,7 +24678,7 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.AlterResourceGroupStmt{
 				IfExists:                yyS[yypt-2].item.(bool),
-				ResourceGroupName:       model.NewCIStr(yyS[yypt-1].ident),
+				ResourceGroupName:       ast.NewCIStr(yyS[yypt-1].ident),
 				ResourceGroupOptionList: yyS[yypt-0].item.([]*ast.ResourceGroupOption),
 			}
 		}
@@ -24687,7 +24686,7 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.DropResourceGroupStmt{
 				IfExists:          yyS[yypt-1].item.(bool),
-				ResourceGroupName: model.NewCIStr(yyS[yypt-0].ident),
+				ResourceGroupName: ast.NewCIStr(yyS[yypt-0].ident),
 			}
 		}
 	case 2759:
@@ -24695,7 +24694,7 @@ yynewstate:
 			parser.yyVAL.statement = &ast.CreatePlacementPolicyStmt{
 				OrReplace:        yyS[yypt-5].item.(bool),
 				IfNotExists:      yyS[yypt-2].item.(bool),
-				PolicyName:       model.NewCIStr(yyS[yypt-1].ident),
+				PolicyName:       ast.NewCIStr(yyS[yypt-1].ident),
 				PlacementOptions: yyS[yypt-0].item.([]*ast.PlacementOption),
 			}
 		}
@@ -24703,7 +24702,7 @@ yynewstate:
 		{
 			parser.yyVAL.statement = &ast.AlterPlacementPolicyStmt{
 				IfExists:         yyS[yypt-2].item.(bool),
-				PolicyName:       model.NewCIStr(yyS[yypt-1].ident),
+				PolicyName:       ast.NewCIStr(yyS[yypt-1].ident),
 				PlacementOptions: yyS[yypt-0].item.([]*ast.PlacementOption),
 			}
 		}
@@ -25674,7 +25673,7 @@ yynewstate:
 			parser.yyVAL.item = &ast.QueryWatchOption{
 				Tp: ast.QueryWatchResourceGroup,
 				ResourceGroupOption: &ast.QueryWatchResourceGroupOption{
-					GroupNameStr: model.NewCIStr(yyS[yypt-0].ident),
+					GroupNameStr: ast.NewCIStr(yyS[yypt-0].ident),
 				},
 			}
 		}
@@ -25704,21 +25703,21 @@ yynewstate:
 	case 2952:
 		{
 			parser.yyVAL.item = &ast.QueryWatchTextOption{
-				Type:        model.WatchSimilar,
+				Type:        ast.WatchSimilar,
 				PatternExpr: yyS[yypt-0].expr,
 			}
 		}
 	case 2953:
 		{
 			parser.yyVAL.item = &ast.QueryWatchTextOption{
-				Type:        model.WatchPlan,
+				Type:        ast.WatchPlan,
 				PatternExpr: yyS[yypt-0].expr,
 			}
 		}
 	case 2954:
 		{
 			parser.yyVAL.item = &ast.QueryWatchTextOption{
-				Type:          yyS[yypt-2].item.(model.RunawayWatchType),
+				Type:          yyS[yypt-2].item.(ast.RunawayWatchType),
 				PatternExpr:   yyS[yypt-0].expr,
 				TypeSpecified: true,
 			}
