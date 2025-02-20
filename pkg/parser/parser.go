@@ -14997,7 +14997,7 @@ yynewstate:
 		}
 	case 247:
 		{
-			colDef := &ast.ColumnDef{Name: yyS[yypt-2].item.(*ast.ColumnName), Tp: yyS[yypt-1].item.(*types.FieldType), Options: yyS[yypt-0].item.([]*ast.ColumnOption)}
+			colDef := &ast.ColumnDef{Name: yyS[yypt-2].item.(*ast.ColumnName), Tp: yyS[yypt-1].item.(*types.FieldType), Options: yyS[yypt-0].item.(ast.ColumnOptionList).Options}
 			if err := colDef.Validate(); err != nil {
 				yylex.AppendError(err)
 				return 1
@@ -15009,7 +15009,7 @@ yynewstate:
 			// TODO: check flen 0
 			tp := types.NewFieldType(mysql.TypeLonglong)
 			options := []*ast.ColumnOption{{Tp: ast.ColumnOptionNotNull}, {Tp: ast.ColumnOptionAutoIncrement}, {Tp: ast.ColumnOptionUniqKey}}
-			options = append(options, yyS[yypt-0].item.([]*ast.ColumnOption)...)
+			options = append(options, yyS[yypt-0].item.(ast.ColumnOptionList).Options...)
 			tp.AddFlag(mysql.UnsignedFlag)
 			colDef := &ast.ColumnDef{Name: yyS[yypt-2].item.(*ast.ColumnName), Tp: tp, Options: options}
 			if err := colDef.Validate(); err != nil {
@@ -15170,7 +15170,9 @@ yynewstate:
 		}
 	case 290:
 		{
-			parser.yyVAL.item = []*ast.ColumnOption{{Tp: ast.ColumnOptionNotNull}, {Tp: ast.ColumnOptionAutoIncrement}, {Tp: ast.ColumnOptionUniqKey}}
+			parser.yyVAL.item = ast.ColumnOptionList{
+				Options: []*ast.ColumnOption{{Tp: ast.ColumnOptionNotNull}, {Tp: ast.ColumnOptionAutoIncrement}, {Tp: ast.ColumnOptionUniqKey}},
+			}
 		}
 	case 291:
 		{
@@ -15197,7 +15199,9 @@ yynewstate:
 			}
 			switch yyS[yypt-0].item.(int) {
 			case 0:
-				parser.yyVAL.item = []*ast.ColumnOption{optionCheck, {Tp: ast.ColumnOptionNotNull}}
+				parser.yyVAL.item = ast.ColumnOptionList{
+					Options: []*ast.ColumnOption{optionCheck, {Tp: ast.ColumnOptionNotNull}},
+				}
 			case 1:
 				optionCheck.Enforced = true
 				parser.yyVAL.item = optionCheck
@@ -15284,22 +15288,39 @@ yynewstate:
 	case 314:
 		{
 			if columnOption, ok := yyS[yypt-0].item.(*ast.ColumnOption); ok {
-				parser.yyVAL.item = []*ast.ColumnOption{columnOption}
+				hasCollateOption := false
+				if columnOption.Tp == ast.ColumnOptionCollate {
+					hasCollateOption = true
+				}
+				parser.yyVAL.item = ast.ColumnOptionList{
+					HasCollateOption: hasCollateOption,
+					Options:          []*ast.ColumnOption{columnOption},
+				}
 			} else {
 				parser.yyVAL.item = yyS[yypt-0].item
 			}
 		}
 	case 315:
 		{
+			columnOptionList := yyS[yypt-1].item.(ast.ColumnOptionList)
 			if columnOption, ok := yyS[yypt-0].item.(*ast.ColumnOption); ok {
-				parser.yyVAL.item = append(yyS[yypt-1].item.([]*ast.ColumnOption), columnOption)
+				if columnOption.Tp == ast.ColumnOptionCollate && columnOptionList.HasCollateOption {
+					yylex.AppendError(ErrParse.GenWithStackByArgs("Multiple COLLATE clauses", yylex.Errorf("").Error()))
+					return 1
+				}
+				columnOptionList.Options = append(columnOptionList.Options, columnOption)
 			} else {
-				parser.yyVAL.item = append(yyS[yypt-1].item.([]*ast.ColumnOption), yyS[yypt-0].item.([]*ast.ColumnOption)...)
+				if columnOptionList.HasCollateOption && yyS[yypt-0].item.(ast.ColumnOptionList).HasCollateOption {
+					yylex.AppendError(ErrParse.GenWithStackByArgs("Multiple COLLATE clauses", yylex.Errorf("").Error()))
+					return 1
+				}
+				columnOptionList.Options = append(columnOptionList.Options, yyS[yypt-0].item.(ast.ColumnOptionList).Options...)
 			}
+			parser.yyVAL.item = columnOptionList
 		}
 	case 316:
 		{
-			parser.yyVAL.item = []*ast.ColumnOption{}
+			parser.yyVAL.item = ast.ColumnOptionList{}
 		}
 	case 318:
 		{
